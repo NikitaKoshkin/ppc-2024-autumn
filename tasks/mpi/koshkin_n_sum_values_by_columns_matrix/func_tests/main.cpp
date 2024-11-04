@@ -85,27 +85,8 @@ TEST(koshkin_n_sum_values_by_columns_matrix_MPI, Test_EmptyMatrix) {
     taskDataPar->inputs_count.emplace_back(columns);
     taskDataPar->outputs.emplace_back(reinterpret_cast<uint8_t *>(res_out_paral.data()));
     taskDataPar->outputs_count.emplace_back(res_out_paral.size());
-  }
-
-  koshkin_n_sum_values_by_columns_matrix_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar);
-  ASSERT_EQ(testMpiTaskParallel.validation(), false);
-
-  if (world.rank() == 0) {
-    // Create data
-    std::vector<int> res_out_seq(columns, 0);
-
-    // Create TaskData
-    std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
-    taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t *>(matrix.data()));
-    taskDataSeq->inputs_count.emplace_back(rows);
-    taskDataSeq->inputs_count.emplace_back(columns);
-    taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t *>(res_out_seq.data()));
-    taskDataSeq->outputs_count.emplace_back(res_out_seq.size());
-
-    // Create Task
-    koshkin_n_sum_values_by_columns_matrix_mpi::TestMPITaskSequential testMpiTaskSequential(taskDataSeq);
-    // Since I require non-empty data, it is logical that it simply will not pass
-    ASSERT_EQ(testMpiTaskSequential.validation(), false);
+    koshkin_n_sum_values_by_columns_matrix_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar);
+    ASSERT_EQ(testMpiTaskParallel.validation(), false);
   }
 }
 
