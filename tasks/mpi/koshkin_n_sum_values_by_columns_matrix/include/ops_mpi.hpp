@@ -7,7 +7,6 @@
 #include <boost/mpi/communicator.hpp>
 #include <memory>
 #include <numeric>
-#include <random>
 #include <string>
 #include <utility>
 #include <vector>
@@ -47,5 +46,4 @@ class TestMPITaskParallel : public ppc::core::Task {
   int columns;
   boost::mpi::communicator world;
 };
-
 }  // namespace koshkin_n_sum_values_by_columns_matrix_mpi
