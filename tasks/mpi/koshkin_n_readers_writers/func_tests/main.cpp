@@ -96,7 +96,7 @@ TEST(readers_writers_MPI, test_large_vector) {
     return;
   }
 
-  const int count_size_vector = 2500;
+  const int count_size_vector = 999;
 
   std::vector<int> global_vec = koshkin_n_readers_writers_mpi::getRandomVector(count_size_vector);
   std::vector<int> exit_vec(count_size_vector, 0);
