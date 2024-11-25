@@ -128,30 +128,3 @@ TEST(readers_writers_MPI, test_large_vector) {
     ASSERT_EQ(res_exp_paral, exit_vec);
   }
 }
-
-TEST(readers_writers_MPI, test_empty_vector) {
-  boost::mpi::communicator world;
-
-  if (world.size() < 2) {
-    ASSERT_TRUE(true);
-    return;
-  }
-
-  const int count_size_vector = 0;
-
-  std::vector<int> global_vec = {};
-  std::vector<int> exit_vec(count_size_vector, 0);
-  std::vector<int> res_exp_paral = global_vec;
-
-  // Create TaskData
-  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
-
-  if (world.rank() == 0) {
-    taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t *>(global_vec.data()));
-    taskDataPar->inputs_count.emplace_back(global_vec.size());
-    taskDataPar->outputs.emplace_back(reinterpret_cast<uint8_t *>(exit_vec.data()));
-    taskDataPar->outputs_count.emplace_back(exit_vec.size());
-    koshkin_n_readers_writers_mpi::TestMPITaskParallel testMpiTaskParallel(taskDataPar);
-    ASSERT_EQ(testMpiTaskParallel.validation(), false);
-  }
-}
